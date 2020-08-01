@@ -7,10 +7,10 @@ export const StarterRoutes: Routes = [
     path: '',
     component: StarterComponent,
 	data: {
-      title: 'Starter Page',
+      title: 'Registro Alumno',
       urls: [
-        { title: 'Dashboard', url: '/dashboard' },
-        { title: 'Starter Page' }
+  
+     
       ]
     }
   }

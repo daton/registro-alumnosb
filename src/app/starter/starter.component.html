@@ -1,20 +1,152 @@
-<!-- ============================================================== -->
-<!-- Simple four boxes Row -->
-<!-- ============================================================== -->
-<div fxLayout="row" fxLayoutWrap="wrap">
-    <!-- column -->
-    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-card>
-            <mat-card-content>
-                <!-- Row -->
-                <div fxLayout="row" fxLayoutWrap="wrap">
-                    <!-- column -->
-                    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50">
-                        Starter Page
-                    </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <!-- column -->
-</div>
+<mat-card>
+    <mat-card-content>
+      <mat-card-title>Bienvenido!</mat-card-title>
+      <mat-card-subtitle>Por favor llena cuidadosamente la siguiente información para registrarte.</mat-card-subtitle>
+      <form [formGroup]="form">
+  
+        <div fxLayout="row wrap">
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Código de tu libro" [formControl]="form.controls['codigolibro']"  (blur)="dejandoCodigo()">
+            </mat-form-field>
+            <mat-hint *ngIf="form.controls['codigolibro'].hasError('required') && form.controls['codigolibro'].touched" class="text-danger font-14">Debes incluir el código de tu libro</mat-hint>
+            <mat-hint *ngIf="!estatus.success  && !cargando"  class="text-danger font-14">{{estatus.mensaje}}</mat-hint>
+            <span *ngIf="cargando"><mat-spinner></mat-spinner></span> 
+            <!--  <mat-hint *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="text-danger font-14">Your first name must be at least 5 characters long.</mat-hint>
+           <mat-hint *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="text-danger font-14">Your first name cannot exceed 10 characters.</mat-hint>
+          -->
+          </div>
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Usuario, ejemplo: B16_lupita" [formControl]="form.controls['usuario']" >
+            </mat-form-field>
+            <small *ngIf="form.controls['usuario'].hasError('required') && form.controls['usuario'].touched" class="text-danger font-14">Debes proporcionar tu usuario</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+           
+
+            <mat-form-field>
+              <input matInput   type="password" placeholder="Password"   [formControl]="form.controls['password']"  [type]="hide ? 'password' : 'text'"  > 
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field> 
+            <small *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched" class="text-danger font-14">Debes escribir tu contraseña.</small>
+          </div>
+  
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Confirmar contraseña" [formControl]="form.controls['confirmPassword']" [type]="hide ? 'password' : 'text'" >
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+            <small *ngIf="form.controls['confirmPassword'].hasError('required') && form.controls['confirmPassword'].touched" class="text-danger font-14">Debes de confirmar tu contraseña.</small>
+            <small *ngIf="form.controls['confirmPassword'].errors?.equalTo" class="text-danger font-14">Las contraseñas no coinciden.</small>
+          </div>
+  
+  
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Correo electrónico" [formControl]="form.controls['email']" type="email" name="email" [(ngModel)]="email"  (blur)="dejandoCorreo()">
+            </mat-form-field>
+            <small *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched" class="text-danger font-14">Debes incluir tu correo electrónico.</small>
+            <small *ngIf="form.controls['email'].errors?.email && form.controls['email'].touched" class="text-danger font-14">Tu correo electrónico no es válido.</small>
+            <mat-hint *ngIf="!errorsito"  class="text-danger font-14">El correo debe ser de gmail</mat-hint>
+            <span *ngIf="cargando2"><mat-spinner></mat-spinner></span> 
+         
+          </div>
+  
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Nombre" [formControl]="form.controls['nombre']" >
+            </mat-form-field>
+            <small *ngIf="form.controls['nombre'].hasError('required') && form.controls['nombre'].touched" class="text-danger font-14">Debes proporcionar tu nombre</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Apellido paterno" [formControl]="form.controls['paterno']" >
+            </mat-form-field>
+            <small *ngIf="form.controls['paterno'].hasError('required') && form.controls['paterno'].touched" class="text-danger font-14">Debes proporcionar tu apellido paterno</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Apellido materno" [formControl]="form.controls['materno']" >
+            </mat-form-field>
+            <small *ngIf="form.controls['materno'].hasError('required') && form.controls['materno'].touched" class="text-danger font-14">Debes proporcionar tu apellido materno</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Clave del profesor" [formControl]="form.controls['claveprofesor']"  (blur)="dejandoClaveProfesor()" >
+            </mat-form-field>
+            <mat-hint *ngIf="form.controls['claveprofesor'].hasError('required') && form.controls['claveprofesor'].touched" class="text-danger font-14">Debes escribir la clave de tu profesor. </mat-hint>
+            <mat-hint *ngIf="!estatusClaveProfesor.success  && !cargandoClaveProfesor; else LISTO"  class="text-danger font-14">{{estatusClaveProfesor.mensaje}}</mat-hint>
+            <ng-template #LISTO>Prof:{{profesor.nombre}} {{profesor.paterno}}</ng-template>  
+            <span *ngIf="cargandoClaveProfesor"><mat-spinner></mat-spinner></span> 
+
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <mat-select placeholder="Grupo" [formControl]="form.controls['grupos']">
+                <mat-option *ngFor="let grupo of listaGrupos" [value]="grupo">{{grupo}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <small *ngIf="form.controls['grupos'].hasError('required') && form.controls['grupos'].touched" class="text-danger font-14">Debes seleccionar tu grupo</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <mat-select placeholder="Plantel" [formControl]="form.controls['planteles']">
+                <mat-option *ngFor="let plantel of listaPlanteles" [value]="plantel">{{plantel}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <small *ngIf="form.controls['planteles'].hasError('required') && form.controls['planteles'].touched" class="text-danger font-14">Debes seleccionar tu plantel</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <mat-select placeholder="Turno" [formControl]="form.controls['turnos']">
+                <mat-option *ngFor="let turno of listaTurnos" [value]="turno">{{turno}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <small *ngIf="form.controls['turnos'].hasError('required') && form.controls['turnos'].touched" class="text-danger font-14">Debes seleccionar tu turno</small>
+            <!--<small *ngIf="form.controls['url'].errors?.url && form.controls['url'].touched" class="text-danger font-14">You must include a valid web address.</small>-->
+          </div>
+
+
+         
+  
+         
+       <!--  <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Phone number" [formControl]="form.controls['phone']" type="text">
+            </mat-form-field>
+            <small *ngIf="form.controls['phone'].hasError('required') && form.controls['phone'].touched" class="text-danger font-14">You must include phone number.</small>
+            <small *ngIf="form.controls['phone'].errors?.phone && form.controls['phone'].touched" class="text-danger font-14">You must include a valid phone number.</small>
+          </div>
+        -->
+  
+          
+  
+         
+        </div>
+  
+        <mat-card-actions>
+       <p  *ngIf="estaRegistrando">Efectuando tu registro espera por favor...</p> 
+          <button mat-raised-button color="primary" (click)="limpiar()">Limpiar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid   || !estatus.success ||!estatusClaveProfesor.success"  (click)="registrarAlumno()">Registrarse</button>
+          <a  mat-raised-button color="primary"   href="https://geradmin.herokuapp.com">Regresar</a>
+        
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>

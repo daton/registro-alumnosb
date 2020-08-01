@@ -13,11 +13,6 @@ export const AppRoutes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'material',
-        loadChildren:
-          './material-component/material.module#MaterialComponentsModule'
-      },
-      {
         path: 'starter',
         loadChildren: './starter/starter.module#StarterModule'
       }
